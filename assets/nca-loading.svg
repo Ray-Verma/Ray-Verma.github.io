@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+<title id="title">Loading neural cellular automata portrait</title><desc id="desc">Cells pulse outward from a seed while the model loads.</desc>
+<rect width="800" height="800" fill="#dfece8"/>
+<g fill="#176b62"><circle cx="400" cy="380" r="18"><animate attributeName="r" values="18;28;18" dur="1.6s" repeatCount="indefinite"/></circle><circle cx="350" cy="380" r="11" opacity=".55"/><circle cx="450" cy="380" r="11" opacity=".55"/><circle cx="400" cy="330" r="11" opacity=".55"/><circle cx="400" cy="430" r="11" opacity=".55"/></g>
+<text x="400" y="535" text-anchor="middle" fill="#0d514a" font-family="ui-monospace, monospace" font-size="24" letter-spacing="3">LOADING NCA</text>
+</svg>

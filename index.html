@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ray Verma — research in robot swarms, collective intelligence, and machine learning.">
+  <meta name="theme-color" content="#f4f1ea">
+  <title>Ray Verma — Research</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="profile-nca.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="site-shell">
+    <aside class="profile" aria-label="Profile and navigation">
+      <div class="profile-inner">
+        <div class="portrait-stack">
+          <!--
+            NCA CONFIGURATION
+            data-renderer-scale: DISPLAY decode scale only. 8=512px, 4=256px, 12=768px.
+              The trained arena always remains 96x96 (512 target + 128 padding each side, training scale 8).
+            data-seed-x/y: seed inside the visible crop, normalized 0..1.
+
+            BACKGROUND CONFIGURATION
+            data-background-fit: cover | contain | fill | none | scale-down
+            data-background-zoom: uniform zoom/crop (>1 zooms in)
+            data-background-position-x/y: crop anchor in percent, 0..100
+            data-background-scale-x/y: independent horizontal/vertical resize
+            data-background-offset-x/y: final translation in percent
+          -->
+          <div
+            class="nca-portrait"
+            id="nca-portrait"
+            data-model="assets/nca/profile.json"
+            data-model-script="assets/nca/profile.js"
+            data-static="assets/profile-static.png"
+            data-background="assets/nca-portrait-background.png"
+            data-renderer-scale="8"
+            data-steps="256"
+            data-recovery-steps="128"
+            data-brush-size="1.0"
+
+            data-seed-x="0.50"
+            data-seed-y="0.50"
+
+            data-background-fit="cover"
+            data-background-zoom="1.3"
+            data-background-position-x="50"
+            data-background-position-y="50"
+            data-background-scale-x="0.9"
+            data-background-scale-y="1.00"
+            data-background-offset-x="0"
+            data-background-offset-y="0"
+
+            data-decode-every="2"
+            aria-label="Interactive neural cellular automata portrait of Ray Verma"
+          >
+            <img class="nca-background" id="nca-background" alt="" hidden>
+            <img class="nca-loading" id="nca-loading" src="assets/nca-loading.svg" alt="Loading the neural cellular automata portrait model">
+            <img class="nca-static" id="nca-static" src="assets/profile-static.png" alt="Portrait of Ray Verma" hidden>
+            <canvas class="nca-canvas" id="nca-canvas" aria-label="Live neural cellular automata portrait; drag to erase cells" hidden></canvas>
+            <div class="nca-brush-cursor" id="nca-brush-cursor" aria-hidden="true" hidden></div>
+            <button class="nca-redo" id="nca-redo" type="button" aria-label="Restart portrait growth" title="Regrow portrait" hidden><span aria-hidden="true">↻</span></button>
+          </div>
+          <p class="nca-caption" id="nca-caption" aria-live="polite" hidden></p>
+          <noscript><style>#nca-loading{display:none!important}#nca-static[hidden]{display:block!important}</style><p class="nca-caption">Interactive portrait requires JavaScript; showing the static image instead.</p></noscript>
+        </div>
+
+        <header class="identity">
+          <p class="overline">Research portfolio</p>
+          <h1>Ray Verma</h1>
+          <p class="role">Computer Science + Mathematics<br>New York University</p>
+          <p class="tagline">Learning decentralized intelligence for robot collectives.</p>
+        </header>
+
+        <nav class="section-nav" aria-label="Page sections">
+          <a href="#about">About</a>
+          <a href="#research">Research</a>
+          <a href="#papers">Papers</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="profile-links" aria-label="External links">
+          <a href="mailto:rayverma@nyu.edu">Email</a>
+          <a href="https://www.linkedin.com/in/ray-verma" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="assets/ray-verma-resume.pdf" target="_blank" rel="noreferrer">CV</a>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main-content">
+      <section class="hero" id="about" aria-labelledby="about-title">
+        <p class="eyebrow">Hello — I’m Ray.</p>
+        <h2 id="about-title">I study how simple local decisions can produce robust, explainable collective behavior.</h2>
+        <p class="lede">I am an undergraduate at New York University, double-majoring in computer science and mathematics. My research spans learned robot-swarm morphogenesis, geometry-aware and set-based representations, and resource-efficient machine learning systems.</p>
+        <p>My long-term goal is to develop decentralized controllers that scale across robot counts and environments while remaining interpretable enough to diagnose, improve, and safely deploy.</p>
+        <div class="question-grid" aria-label="Research questions">
+          <article><span>01</span><p>How can local controllers preserve global geometric intent without centralized coordination?</p></article>
+          <article><span>02</span><p>How can we connect small interactions to collective success, failure, and recovery?</p></article>
+        </div>
+      </section>
+
+      <section id="research" aria-labelledby="research-title">
+        <div class="section-heading"><p class="eyebrow">Selected work</p><h2 id="research-title">Research</h2><p>Projects that connect representation, learning, optimization, and interpretability.</p></div>
+        <div class="project-list">
+          <article class="project"><div class="project-visual"><img src="assets/swarm.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>Robot collectives</span><span>NYU</span></div><h3>Learned robot-swarm morphogenesis</h3><p>Developing local controllers for homogeneous swarms that form, reconfigure, and recover global shapes using only neighborhood observations, including neural and graph cellular-automata approaches to decentralized coordination.</p></div></article>
+          <article class="project"><div class="project-visual"><img src="assets/geometry.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>Representations</span><span>Stanford</span></div><h3>Geometry-aware and set-level encoding</h3><p>Building compact representations for spatial and collection structure, including geometry-aware feature expansions and schema-agnostic dataset embeddings.</p></div></article>
+          <article class="project"><div class="project-visual"><img src="assets/interactions.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>Interpretability</span><span>NYU</span></div><h3>Interpretable collective intelligence</h3><p>Studying how local observations and interactions accumulate into deformation, deadlock, successful recovery, and other system-level outcomes.</p></div></article>
+          <article class="project"><div class="project-visual"><img src="assets/scheduling.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>ML systems</span><span>Galatea Bio</span></div><h3>Resource-aware parallel optimization</h3><p>Designing memory-aware scheduling and adaptive task packing for large biological workflows and resource-efficient machine learning systems.</p></div></article>
+        </div>
+      </section>
+
+      <section id="papers" aria-labelledby="papers-title">
+        <div class="section-heading"><p class="eyebrow">Writing</p><h2 id="papers-title">Selected papers</h2><p>Selected work across machine learning representations and resource-aware systems.</p></div>
+        <ol class="paper-list">
+          <li><div><h3>Parallel Scheduling and Optimization for Biological Workflows</h3><p>Resource-aware orchestration for large genomic workflows.</p></div><span class="status">AAAI · accepted</span></li>
+          <li><div><h3>Random Voronoi Features and Networks for Geometry-Aware Feature Encoding</h3><p>Fast, learning-free feature expansions that encode geometric structure.</p></div><span class="status">submitted</span></li>
+          <li><div><h3>Dataset-Level Encoding for Fixed-Size Shared-Space Dataset Representations</h3><p>Permutation-aware compression of collections into shared latent representations.</p></div><span class="status">submitted</span></li>
+        </ol>
+      </section>
+
+      <section id="experience" aria-labelledby="experience-title">
+        <div class="section-heading"><p class="eyebrow">Background</p><h2 id="experience-title">Experience</h2><p>A compact overview; the CV contains the complete details.</p></div>
+        <div class="timeline">
+          <article><div class="timeline-time">2026 — present</div><div><h3>Research Assistant · Center for AI and Robotics, NYU</h3><p>Decentralized formation control and learned morphogenesis for homogeneous robot swarms.</p></div></article>
+          <article><div class="timeline-time">2025 — present</div><div><h3>Research Assistant · AGI Lab, Stanford University</h3><p>Geometry-aware feature maps, dataset-level embeddings, and tabular foundation models.</p></div></article>
+          <article><div class="timeline-time">2024 — 2026</div><div><h3>Research Assistant · Genetic Heritage Group, NYU</h3><p>Population-scale microbiome analysis and causal bacteria-virus interaction discovery.</p></div></article>
+          <article><div class="timeline-time">2025</div><div><h3>AI Engineer Intern · Galatea Bio and Emerton Data</h3><p>Resource-efficient biological workflows and low-resource reinforcement learning for language models.</p></div></article>
+          <article><div class="timeline-time">2023 — 2027</div><div><h3>B.S. candidate · New York University</h3><p>Double major in computer science and mathematics.</p></div></article>
+        </div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title"><p class="eyebrow">Contact</p><h2 id="contact-title">I’m always happy to discuss research in collective intelligence, robotics, and machine learning.</h2><div class="contact-actions"><a class="button primary" href="mailto:rayverma@nyu.edu">rayverma@nyu.edu</a><a class="button" href="assets/ray-verma-resume.pdf" target="_blank" rel="noreferrer">View CV</a></div></section>
+      <footer><p>© <span id="year">2026</span> Ray Verma.</p><p>Built as a lightweight static site for GitHub Pages.</p></footer>
+    </main>
+  </div>
+</body>
+</html>
