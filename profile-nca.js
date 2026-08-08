@@ -13,10 +13,12 @@
   const caption = document.getElementById('nca-caption');
 
   const MODEL_URL = root.dataset.model || 'assets/nca/profile.json';
-  const MODEL_SCRIPT_URL = root.dataset.modelScript || MODEL_URL.replace(/\.json(?:\?.*)?$/, '.js');
   const STATIC_URL = root.dataset.static || 'assets/profile-static.png';
   const BACKGROUND_URL = root.dataset.background || '';
-  const SWISSGL_URL = 'https://cdn.jsdelivr.net/gh/Cells2Pixels/Cells2Pixels.github.io@main/swissgl.js';
+  const SWISSGL_URLS = [
+    'https://cells2pixels.github.io/swissgl.js',
+    'https://cdn.jsdelivr.net/gh/Cells2Pixels/Cells2Pixels.github.io@main/swissgl.js'
+  ];
   const LOAD_TIMEOUT_MS = 10000;
 
   // -----------------------------------------------------------------------
@@ -106,8 +108,22 @@
   let lastDecodedStep = -1;
   let pointerDown = false;
 
-  if (location.protocol === 'file:') {
-    console.warn('[Portrait NCA] This page is running from file://. Modern browsers give local files opaque origins, so WebGL/model loading may be unreliable. Use START_LOCAL.command (macOS) or python3 serve_local.py instead.');
+  const IS_WEB_ORIGIN = location.protocol === 'https:' || location.protocol === 'http:';
+
+  function resolveResourceURL(value, label, sameOrigin = false) {
+    const url = new URL(value, document.baseURI);
+
+    // A page served by GitHub Pages must never attempt to load a file:// URL.
+    // If an extension or malformed configuration rewrites an asset URL, fail
+    // here with a useful message instead of allowing a confusing browser-level
+    // security exception.
+    if (IS_WEB_ORIGIN && url.protocol !== 'https:' && url.protocol !== 'http:') {
+      throw new Error(`${label} resolved to disallowed protocol ${url.protocol}`);
+    }
+    if (sameOrigin && IS_WEB_ORIGIN && url.origin !== location.origin) {
+      throw new Error(`${label} must be served from ${location.origin}, got ${url.origin}`);
+    }
+    return url.href;
   }
 
   const isPhone = (() => {
@@ -137,7 +153,7 @@
     redo.hidden = false;
 
     if (BACKGROUND_URL) {
-      backgroundImage.src = BACKGROUND_URL;
+      backgroundImage.src = resolveResourceURL(BACKGROUND_URL, 'NCA background', true);
       backgroundImage.style.objectFit = BACKGROUND_FIT;
       backgroundImage.style.objectPosition = `${BACKGROUND_POSITION_X}% ${BACKGROUND_POSITION_Y}%`;
       backgroundImage.style.transformOrigin = `${BACKGROUND_POSITION_X}% ${BACKGROUND_POSITION_Y}%`;
@@ -155,17 +171,20 @@
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = src;
-      script.async = true;
+      let resolved;
+      try {
+        resolved = resolveResourceURL(src, 'script');
+      } catch (error) {
+        reject(error);
+        return;
+      }
 
-      // Do not set the crossorigin attribute here. In particular, assigning
-      // crossOrigin = '' still enables anonymous CORS mode. That makes Chrome
-      // reject a same-directory profile.js when the page is opened via file://
-      // because file URLs have opaque (null) origins. Classic scripts do not
-      // need crossorigin for either the local model wrapper or SwissGL.
-      script.onload = resolve;
-      script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+      const script = document.createElement('script');
+      script.src = resolved;
+      script.async = true;
+      script.referrerPolicy = 'no-referrer';
+      script.onload = () => resolve(resolved);
+      script.onerror = () => reject(new Error(`Failed to load script: ${resolved}`));
       document.head.appendChild(script);
     });
   }
@@ -185,21 +204,49 @@
   }
 
   async function fetchModel() {
-    if (location.protocol === 'file:') {
-      if (!window.__PROFILE_NCA_MODEL__) await loadScript(MODEL_SCRIPT_URL);
-      if (!window.__PROFILE_NCA_MODEL__) throw new Error('Local model wrapper did not initialize');
-      return decodePayload(window.__PROFILE_NCA_MODEL__);
+    if (!IS_WEB_ORIGIN) {
+      throw new Error('Live NCA requires http:// or https://. Use a local web server instead of opening index.html with file://.');
     }
 
-    const response = await fetch(MODEL_URL, { cache: 'no-cache' });
-    if (!response.ok) throw new Error(`Portrait model request failed (${response.status})`);
-    return decodePayload(await response.json());
+    const modelURL = resolveResourceURL(MODEL_URL, 'NCA model', true);
+    let lastError;
+
+    // Retry once. This helps with transient GitHub Pages/network failures while
+    // keeping the model strictly same-origin.
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        const requestURL = attempt === 0
+          ? modelURL
+          : `${modelURL}${modelURL.includes('?') ? '&' : '?'}retry=${Date.now()}`;
+        const response = await fetch(requestURL, {
+          method: 'GET',
+          mode: 'same-origin',
+          credentials: 'same-origin',
+          cache: attempt === 0 ? 'default' : 'reload'
+        });
+        if (!response.ok) throw new Error(`Portrait model request failed (${response.status})`);
+        return decodePayload(await response.json());
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError || new Error('Portrait model request failed');
   }
 
   async function ensureSwissGL() {
     if (window.SwissGL) return;
-    await loadScript(SWISSGL_URL);
-    if (!window.SwissGL) throw new Error('SwissGL did not initialize');
+
+    let lastError;
+    for (const src of SWISSGL_URLS) {
+      try {
+        await loadScript(src);
+        if (window.SwissGL) return;
+        lastError = new Error(`SwissGL loaded from ${src} but did not initialize`);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError || new Error('SwissGL did not initialize');
   }
 
   function buildModel(src) {
@@ -616,7 +663,14 @@
   }
 
   async function start() {
-    staticImage.src = STATIC_URL;
+    if (!IS_WEB_ORIGIN) {
+      staticImage.src = STATIC_URL;
+      console.warn('[Portrait NCA] Live inference is disabled for file:// pages. Start a local HTTP server (python3 -m http.server) to test the NCA.');
+      showStatic('unsupported-protocol');
+      return;
+    }
+
+    staticImage.src = resolveResourceURL(STATIC_URL, 'static portrait', true);
 
     if (isPhone) {
       showStatic('phone');
@@ -689,7 +743,12 @@
       renderFrame();
     } catch (error) {
       window.clearTimeout(timeoutId);
-      console.warn('Portrait NCA unavailable; using static portrait.', error);
+      console.warn('[Portrait NCA] unavailable; using static portrait.', {
+        error,
+        page: location.href,
+        model: (() => { try { return resolveResourceURL(MODEL_URL, 'NCA model', true); } catch (_) { return MODEL_URL; } })(),
+        protocol: location.protocol
+      });
       showStatic('error');
     }
   }
