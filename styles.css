@@ -47,13 +47,14 @@ a:hover { color: var(--accent); }
   display: grid;
   grid-template-columns: minmax(250px, 310px) minmax(0, 760px);
   gap: clamp(3.25rem, 7vw, 7rem);
+  align-items: start;
   width: min(1150px, calc(100% - 3rem));
   margin: 0 auto;
   padding: 3rem 0 4rem;
 }
 
 .profile { min-width: 0; }
-.profile-inner { position: sticky; top: 2.25rem; }
+.profile-inner { position: static; }
 .portrait-stack { width: min(100%, 245px); margin-bottom: 1.65rem; }
 
 .identity h1 {
@@ -381,14 +382,15 @@ footer p { margin: 0; }
 
 @media (max-width: 620px) {
   body { font-size: 15px; }
-  .site-shell { width: min(100% - 1.4rem,760px); }
+  .site-shell { width: min(100% - 1.4rem,620px); }
   .profile-inner { grid-template-columns: 105px minmax(0,1fr); gap: 1rem; }
   .portrait-stack { width: 105px; }
   .nca-portrait { border-radius: .8rem; }
   .role { font-size: .86rem; }
   .profile-links { gap: .4rem; }
   .profile-button { min-height: 1.95rem; padding: .3rem .58rem; font-size: .72rem; }
-  .section-nav { overflow-x: auto; flex-wrap: nowrap; padding-bottom: .65rem; }
+  .profile-inner { padding-bottom: 1rem; }
+  .section-nav { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 0rem; }
   .section-nav a { white-space: nowrap; }
   main > section { padding: 2.9rem 0; }
   .about-summary { font-size: 1.25rem; }
@@ -407,3 +409,51 @@ footer p { margin: 0; }
   *,*::before,*::after { transition-duration: .01ms !important; }
 }
 
+/* Keep the desktop identity/navigation rail usable on short viewports. */
+@media (min-width: 901px) {
+  .profile {
+    --rail-scale: clamp(.82, calc(.82 + ((100vw - 900px) / 3000px)), 1);
+    position: sticky;
+    top: calc(2.25rem * var(--rail-scale));
+    align-self: start;
+  }
+  .profile-inner {
+    display: flex;
+    flex-direction: column;
+    gap: calc(1.65rem * var(--rail-scale));
+    overflow: visible;
+    max-height: none;
+    padding-right: 0;
+  }
+  .portrait-stack { width: min(100%, calc(245px * var(--rail-scale))); margin-bottom: 0; }
+  .identity h1 { font-size: clamp(2.05rem, calc(2.25rem * var(--rail-scale)), 3.25rem); }
+  .role {
+    margin-top: calc(.85rem * var(--rail-scale));
+    font-size: calc(.96rem * var(--rail-scale));
+  }
+  .profile-links {
+    gap: calc(.55rem * var(--rail-scale));
+    margin-top: calc(1rem * var(--rail-scale));
+  }
+  .profile-button {
+    min-height: calc(2.15rem * var(--rail-scale));
+    padding: calc(.35rem * var(--rail-scale)) calc(.72rem * var(--rail-scale));
+    font-size: calc(.79rem * var(--rail-scale));
+  }
+  .section-nav {
+    gap: calc(.36rem * var(--rail-scale));
+    margin-top: calc(1.65rem * var(--rail-scale));
+    padding-top: calc(1.15rem * var(--rail-scale));
+  }
+  .section-nav a { font-size: calc(.76rem * var(--rail-scale)); }
+}
+
+@media (min-width: 901px) and (max-height: 800px) {
+  .site-shell { padding-top: 1.25rem; }
+  .profile { top: .75rem; }
+  .portrait-stack { width: min(100%, 210px); margin-bottom: 1rem; }
+  .identity h1 { font-size: 2.35rem; }
+  .role { margin-top: .55rem; }
+  .profile-links { margin-top: .7rem; }
+  .section-nav { margin-top: 1rem; padding-top: .8rem; }
+}

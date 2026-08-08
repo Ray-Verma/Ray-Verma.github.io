@@ -108,22 +108,8 @@
   let lastDecodedStep = -1;
   let pointerDown = false;
 
-  const IS_WEB_ORIGIN = location.protocol === 'https:' || location.protocol === 'http:';
-
-  function resolveResourceURL(value, label, sameOrigin = false) {
-    const url = new URL(value, document.baseURI);
-
-    // A page served by GitHub Pages must never attempt to load a file:// URL.
-    // If an extension or malformed configuration rewrites an asset URL, fail
-    // here with a useful message instead of allowing a confusing browser-level
-    // security exception.
-    if (IS_WEB_ORIGIN && url.protocol !== 'https:' && url.protocol !== 'http:') {
-      throw new Error(`${label} resolved to disallowed protocol ${url.protocol}`);
-    }
-    if (sameOrigin && IS_WEB_ORIGIN && url.origin !== location.origin) {
-      throw new Error(`${label} must be served from ${location.origin}, got ${url.origin}`);
-    }
-    return url.href;
+  if (location.protocol === 'file:') {
+    console.warn('[Portrait NCA] file:// preview is intentionally disabled. Use START_LOCAL.command or python3 serve_local.py so the page runs from http://localhost.');
   }
 
   const isPhone = (() => {
@@ -153,7 +139,7 @@
     redo.hidden = false;
 
     if (BACKGROUND_URL) {
-      backgroundImage.src = resolveResourceURL(BACKGROUND_URL, 'NCA background', true);
+      backgroundImage.src = BACKGROUND_URL;
       backgroundImage.style.objectFit = BACKGROUND_FIT;
       backgroundImage.style.objectPosition = `${BACKGROUND_POSITION_X}% ${BACKGROUND_POSITION_Y}%`;
       backgroundImage.style.transformOrigin = `${BACKGROUND_POSITION_X}% ${BACKGROUND_POSITION_Y}%`;
@@ -171,20 +157,14 @@
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
-      let resolved;
-      try {
-        resolved = resolveResourceURL(src, 'script');
-      } catch (error) {
-        reject(error);
-        return;
-      }
-
       const script = document.createElement('script');
-      script.src = resolved;
+      script.src = src;
       script.async = true;
-      script.referrerPolicy = 'no-referrer';
-      script.onload = () => resolve(resolved);
-      script.onerror = () => reject(new Error(`Failed to load script: ${resolved}`));
+
+      // Do not set a crossorigin attribute. SwissGL is a classic script, and
+      // omitting the attribute avoids introducing an unnecessary CORS mode.
+      script.onload = resolve;
+      script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
       document.head.appendChild(script);
     });
   }
@@ -203,45 +183,51 @@
     return src;
   }
 
+  function resolveSameOriginAsset(path, label) {
+    const url = new URL(path, document.baseURI);
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        throw new Error(`${label} resolved to unsupported protocol ${url.protocol}`);
+      }
+      if (url.origin !== location.origin) {
+        throw new Error(`${label} must be same-origin (${location.origin}), got ${url.origin}`);
+      }
+    }
+    return url.href;
+  }
+
   async function fetchModel() {
-    if (!IS_WEB_ORIGIN) {
-      throw new Error('Live NCA requires http:// or https://. Use a local web server instead of opening index.html with file://.');
+    // Do not attempt to load any local file resources. This removes the only
+    // page-owned path that could ever resolve a model asset to file://.
+    if (location.protocol === 'file:') {
+      throw new Error('Local file preview is unsupported; serve the site over HTTP instead.');
     }
 
-    const modelURL = resolveResourceURL(MODEL_URL, 'NCA model', true);
+    const modelUrl = resolveSameOriginAsset(MODEL_URL, 'NCA model');
     let lastError;
-
-    // Retry once. This helps with transient GitHub Pages/network failures while
-    // keeping the model strictly same-origin.
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
-        const requestURL = attempt === 0
-          ? modelURL
-          : `${modelURL}${modelURL.includes('?') ? '&' : '?'}retry=${Date.now()}`;
-        const response = await fetch(requestURL, {
-          method: 'GET',
-          mode: 'same-origin',
-          credentials: 'same-origin',
-          cache: attempt === 0 ? 'default' : 'reload'
+        const response = await fetch(modelUrl, {
+          cache: attempt === 0 ? 'no-cache' : 'reload',
+          credentials: 'same-origin'
         });
         if (!response.ok) throw new Error(`Portrait model request failed (${response.status})`);
         return decodePayload(await response.json());
       } catch (error) {
         lastError = error;
+        if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 250));
       }
     }
-    throw lastError || new Error('Portrait model request failed');
+    throw lastError;
   }
 
   async function ensureSwissGL() {
     if (window.SwissGL) return;
-
     let lastError;
     for (const src of SWISSGL_URLS) {
       try {
         await loadScript(src);
         if (window.SwissGL) return;
-        lastError = new Error(`SwissGL loaded from ${src} but did not initialize`);
       } catch (error) {
         lastError = error;
       }
@@ -663,14 +649,12 @@
   }
 
   async function start() {
-    if (!IS_WEB_ORIGIN) {
-      staticImage.src = STATIC_URL;
-      console.warn('[Portrait NCA] Live inference is disabled for file:// pages. Start a local HTTP server (python3 -m http.server) to test the NCA.');
-      showStatic('unsupported-protocol');
+    staticImage.src = STATIC_URL;
+
+    if (location.protocol === 'file:') {
+      showStatic('file-preview');
       return;
     }
-
-    staticImage.src = resolveResourceURL(STATIC_URL, 'static portrait', true);
 
     if (isPhone) {
       showStatic('phone');
@@ -712,6 +696,8 @@
       window.clearTimeout(timeoutId);
 
       console.info('[Portrait NCA] training-aligned crop + erase enabled', {
+        pageProtocol: location.protocol,
+        modelUrl: resolveSameOriginAsset(MODEL_URL, 'NCA model'),
         fullGrid: `${W}x${H}`,
         visibleCells: `${CONTENT_CELLS}x${CONTENT_CELLS}`,
         paddingCells: PAD_CELLS,
@@ -743,12 +729,7 @@
       renderFrame();
     } catch (error) {
       window.clearTimeout(timeoutId);
-      console.warn('[Portrait NCA] unavailable; using static portrait.', {
-        error,
-        page: location.href,
-        model: (() => { try { return resolveResourceURL(MODEL_URL, 'NCA model', true); } catch (_) { return MODEL_URL; } })(),
-        protocol: location.protocol
-      });
+      console.warn('Portrait NCA unavailable; using static portrait.', error);
       showStatic('error');
     }
   }
