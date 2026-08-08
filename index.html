@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Ray Verma — research in robot swarms, collective intelligence, and machine learning.">
+  <meta name="description" content="Ray Verma — computer science and mathematics at NYU; research in robot swarms, cellular automata, feature encoding, and tabular foundation models.">
   <meta name="theme-color" content="#f4f1ea">
-  <title>Ray Verma — Research</title>
+  <title>Ray Verma</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script defer src="profile-nca.js"></script>
@@ -13,6 +13,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
+
   <div class="site-shell">
     <aside class="profile" aria-label="Profile and navigation">
       <div class="profile-inner">
@@ -49,7 +50,7 @@
             data-background-zoom="1.3"
             data-background-position-x="50"
             data-background-position-y="50"
-            data-background-scale-x="0.9"
+            data-background-scale-x="1.00"
             data-background-scale-y="1.00"
             data-background-offset-x="0"
             data-background-offset-y="0"
@@ -69,72 +70,153 @@
         </div>
 
         <header class="identity">
-          <p class="overline">Research portfolio</p>
           <h1>Ray Verma</h1>
-          <p class="role">Computer Science + Mathematics<br>New York University</p>
-          <p class="tagline">Learning decentralized intelligence for robot collectives.</p>
+          <p class="role">Computer Science + Mathematics<br><span>New York University</span></p>
+          <div class="profile-links" aria-label="External links">
+            <a class="profile-button" href="mailto:rayverma@nyu.edu">Email</a>
+            <a class="profile-button" href="assets/ray-verma-resume.pdf" target="_blank" rel="noreferrer">CV</a>
+            <a class="profile-button" href="https://www.linkedin.com/in/ray-verma" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
         </header>
 
         <nav class="section-nav" aria-label="Page sections">
           <a href="#about">About</a>
-          <a href="#research">Research</a>
-          <a href="#papers">Papers</a>
+          <a href="#projects">Projects</a>
+          <a href="#publications">Publications</a>
           <a href="#experience">Experience</a>
           <a href="#contact">Contact</a>
         </nav>
-
-        <div class="profile-links" aria-label="External links">
-          <a href="mailto:rayverma@nyu.edu">Email</a>
-          <a href="https://www.linkedin.com/in/ray-verma" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href="assets/ray-verma-resume.pdf" target="_blank" rel="noreferrer">CV</a>
-        </div>
       </div>
     </aside>
 
     <main id="main-content">
-      <section class="hero" id="about" aria-labelledby="about-title">
-        <p class="eyebrow">Hello — I’m Ray.</p>
-        <h2 id="about-title">I study how simple local decisions can produce robust, explainable collective behavior.</h2>
-        <p class="lede">I am an undergraduate at New York University, double-majoring in computer science and mathematics. My research spans learned robot-swarm morphogenesis, geometry-aware and set-based representations, and resource-efficient machine learning systems.</p>
-        <p>My long-term goal is to develop decentralized controllers that scale across robot counts and environments while remaining interpretable enough to diagnose, improve, and safely deploy.</p>
-        <div class="question-grid" aria-label="Research questions">
-          <article><span>01</span><p>How can local controllers preserve global geometric intent without centralized coordination?</p></article>
-          <article><span>02</span><p>How can we connect small interactions to collective success, failure, and recovery?</p></article>
+      <section class="about" id="about" aria-labelledby="about-title">
+        <h2 id="about-title">About Me</h2>
+        <p class="about-summary"> I am a research assistant exploring Distributed Multi Agent Systems at <a href="https://cair.nyuad.nyu.edu/" target="_blank" rel="noreferrer">NYU's Center for AI and Robotics</a>.</p>
+        <p>I am a final year undergraduate student at <strong>New York University</strong>, double-majoring in computer science and mathematics. I work on learned robot-swarm morphogenesis, including neural and graph cellular-automata approaches to decentralized formation control under <a href="https://scholar.google.com/citations?user=cVjuZJoAAAAJ&hl=en" target="_blank" rel="noreferrer">Prof. Eliseo Ferrante.</a></p>
+        <p>I also work with the <a href="https://ioannidislab.ai/" target="_blank" rel="noreferrer"> <strong>AGI Lab at Stanford University</strong> </a> on feature encoding and tabular foundation models. Previously, I worked on population-scale microbiome analysis at NYU's Genetic Heritage Group and on resource-aware genomic workflows at Galatea Bio.</p>
+        <p>My broader interests include collective intelligence, distributed control, and resource-efficient machine learning systems.</p>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-title">
+        <div class="section-heading-simple">
+          <h2 id="projects-title">Ongoing Projects</h2>
+          <p>Current research across robot collectives and foundation models.</p>
+        </div>
+
+        <div class="project-list academic-projects">
+          <article class="project-row" id="navnca">
+            <div class="project-index">01</div>
+            <div>
+              <div class="project-heading-line">
+                <h3>NavNCA</h3>
+                <span class="project-affiliation">NYU · Center for AI and Robotics</span>
+              </div>
+              <p>An end-to-end equivariant graph cellular automata controller for decentralized robot-swarm morphogenesis. I am studying how local policies can form and reconfigure target shapes without global coordinates and generalize across geometries.</p>
+            </div>
+          </article>
+
+          <article class="project-row" id="goalnca">
+            <div class="project-index">02</div>
+            <div>
+              <div class="project-heading-line">
+                <h3>GoalNCA</h3>
+                <span class="project-affiliation">NYU · Center for AI and Robotics</span>
+              </div>
+              <p>A neural cellular automata approach to decentralized frontier target acquisition and scalable lattice formation. The project studies how homogeneous agents can coordinate target assignment from local neighborhood information.</p>
+            </div>
+          </article>
+
+          <article class="project-row" id="tabular-foundation-models">
+            <div class="project-index">03</div>
+            <div>
+              <div class="project-heading-line">
+                <h3>Tabular Foundation Models</h3>
+                <span class="project-affiliation">Stanford University · AGI Lab</span>
+              </div>
+              <p>Investigating Prior-Fitted Networks and related approaches for data-efficient tabular prediction, specifically using In-Context Learning via synthetic data pre-training.</p>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section id="research" aria-labelledby="research-title">
-        <div class="section-heading"><p class="eyebrow">Selected work</p><h2 id="research-title">Research</h2><p>Projects that connect representation, learning, optimization, and interpretability.</p></div>
-        <div class="project-list">
-          <article class="project"><div class="project-visual"><img src="assets/swarm.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>Robot collectives</span><span>NYU</span></div><h3>Learned robot-swarm morphogenesis</h3><p>Developing local controllers for homogeneous swarms that form, reconfigure, and recover global shapes using only neighborhood observations, including neural and graph cellular-automata approaches to decentralized coordination.</p></div></article>
-          <article class="project"><div class="project-visual"><img src="assets/geometry.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>Representations</span><span>Stanford</span></div><h3>Geometry-aware and set-level encoding</h3><p>Building compact representations for spatial and collection structure, including geometry-aware feature expansions and schema-agnostic dataset embeddings.</p></div></article>
-          <article class="project"><div class="project-visual"><img src="assets/interactions.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>Interpretability</span><span>NYU</span></div><h3>Interpretable collective intelligence</h3><p>Studying how local observations and interactions accumulate into deformation, deadlock, successful recovery, and other system-level outcomes.</p></div></article>
-          <article class="project"><div class="project-visual"><img src="assets/scheduling.svg" alt=""></div><div class="project-copy"><div class="project-meta"><span>ML systems</span><span>Galatea Bio</span></div><h3>Resource-aware parallel optimization</h3><p>Designing memory-aware scheduling and adaptive task packing for large biological workflows and resource-efficient machine learning systems.</p></div></article>
+      <section id="publications" aria-labelledby="publications-title">
+        <div class="section-heading-simple">
+          <h2 id="publications-title">Publications</h2>
+          <p>Publications and preprints. Image spaces are intentionally left as placeholders for paper figures.</p>
         </div>
-      </section>
 
-      <section id="papers" aria-labelledby="papers-title">
-        <div class="section-heading"><p class="eyebrow">Writing</p><h2 id="papers-title">Selected papers</h2><p>Selected work across machine learning representations and resource-aware systems.</p></div>
-        <ol class="paper-list">
-          <li><div><h3>Parallel Scheduling and Optimization for Biological Workflows</h3><p>Resource-aware orchestration for large genomic workflows.</p></div><span class="status">AAAI · accepted</span></li>
-          <li><div><h3>Random Voronoi Features and Networks for Geometry-Aware Feature Encoding</h3><p>Fast, learning-free feature expansions that encode geometric structure.</p></div><span class="status">submitted</span></li>
-          <li><div><h3>Dataset-Level Encoding for Fixed-Size Shared-Space Dataset Representations</h3><p>Permutation-aware compression of collections into shared latent representations.</p></div><span class="status">submitted</span></li>
-        </ol>
+        <div class="publication-list">
+          <article class="publication">
+            <img class="publication-image" src="assets/publications/RVF.png" alt="Random Voronoi Figure: Method Overview">
+            <div class="publication-copy">
+              <h3>Random Voronoi Networks</h3>
+              <p class="publication-authors">Ray Verma, Pau Mateo Bernadó, Daniel Mas Montserrat, David Bonet, Marçal Comajoan Cara, Alexander G. Ioannidis.</p>
+              <p class="publication-meta"><span class="publication-status">preprint</span></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <img class="publication-image" src="assets/publications/EAR.png" alt="Expand and Reduce: Method Overview">
+            <div class="publication-copy">
+              <h3>Expand and Reduce: Dimensionality-Agnostic Dataset Embeddings</h3>
+              <p class="publication-authors">Ray Verma, Míriam Barrabés, David Bonet, Marçal Comajoan Cara, Daniel Mas Montserrat, Alexander G. Ioannidis.</p>
+              <p class="publication-meta"><span class="publication-status">preprint</span></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <img class="publication-image" src="assets/publications/ChromPar.png" alt="Chromosome Parallelization: Results Overview">
+            <div class="publication-copy">
+              <h3><a href="https://arxiv.org/abs/2511.15977" target="_blank" rel="noreferrer">Efficient Chromosome Parallelization for Precision Medicine Genomic Workflows</a></h3>
+              <p class="publication-authors">Daniel Montserrat, Ray Verma, Míriam Barrabés, Francisco M. de la Vega, Carlos D. Bustamante, Alexander G. Ioannidis.</p>
+              <p class="publication-meta"><a href="https://arxiv.org/abs/2511.15977" target="_blank" rel="noreferrer">AAAI 2026</a> <span aria-hidden="true">·</span> <span>🏆 Deployed Application Award</span></p>
+            </div>
+          </article>
+        </div>
       </section>
 
       <section id="experience" aria-labelledby="experience-title">
-        <div class="section-heading"><p class="eyebrow">Background</p><h2 id="experience-title">Experience</h2><p>A compact overview; the CV contains the complete details.</p></div>
-        <div class="timeline">
-          <article><div class="timeline-time">2026 — present</div><div><h3>Research Assistant · Center for AI and Robotics, NYU</h3><p>Decentralized formation control and learned morphogenesis for homogeneous robot swarms.</p></div></article>
-          <article><div class="timeline-time">2025 — present</div><div><h3>Research Assistant · AGI Lab, Stanford University</h3><p>Geometry-aware feature maps, dataset-level embeddings, and tabular foundation models.</p></div></article>
-          <article><div class="timeline-time">2024 — 2026</div><div><h3>Research Assistant · Genetic Heritage Group, NYU</h3><p>Population-scale microbiome analysis and causal bacteria-virus interaction discovery.</p></div></article>
-          <article><div class="timeline-time">2025</div><div><h3>AI Engineer Intern · Galatea Bio and Emerton Data</h3><p>Resource-efficient biological workflows and low-resource reinforcement learning for language models.</p></div></article>
-          <article><div class="timeline-time">2023 — 2027</div><div><h3>B.S. candidate · New York University</h3><p>Double major in computer science and mathematics.</p></div></article>
+        <div class="section-heading-simple">
+          <h2 id="experience-title">Experience</h2>
+        </div>
+        <div class="timeline compact-timeline">
+          <article>
+            <div class="timeline-time">2026 — present</div>
+            <div><h3>Center for AI and Robotics, NYU · Research Assistant </h3><p>Robot-swarm morphogenesis and decentralized formation control.</p></div>
+          </article>
+          <article>
+            <div class="timeline-time">2025 — present</div>
+            <div><h3>AGI Lab, Stanford University · Research Assistant</h3><p>Feature encoding, dataset embeddings, and tabular foundation models.</p></div>
+          </article>
+          <article>
+            <div class="timeline-time">2024 — 2026</div>
+            <div><h3>Genetic Heritage Group, NYU · Research Assistant</h3><p>Population-scale microbiome analysis and causal inference for bacteria-virus interactions.</p></div>
+          </article>
+          <article>
+            <div class="timeline-time">Summer 2025</div>
+            <div><h3>Galatea Bio · AI Engineer Intern</h3><p>Genomic workflow optimization and CI/CD pipeline development.</p></div>
+          </article>
+          <article>
+            <div class="timeline-time">Spring 2025</div>
+            <div><h3>Emerton Data · AI Engineer Intern</h3><p> Low-resource language-model training using LLM with Reinforcement Learning.</p></div>
+          </article>
+          <article>
+            <div class="timeline-time">Summer 2024</div>
+            <div><h3>Embodied AI and Robotics Lab, NYU · Research Assistant</h3><p> Vision-Language Navigation approaches and 3D Gaussian Splatting</p></div>
+          </article>
+
         </div>
       </section>
 
-      <section class="contact" id="contact" aria-labelledby="contact-title"><p class="eyebrow">Contact</p><h2 id="contact-title">I’m always happy to discuss research in collective intelligence, robotics, and machine learning.</h2><div class="contact-actions"><a class="button primary" href="mailto:rayverma@nyu.edu">rayverma@nyu.edu</a><a class="button" href="assets/ray-verma-resume.pdf" target="_blank" rel="noreferrer">View CV</a></div></section>
-      <footer><p>© <span id="year">2026</span> Ray Verma.</p><p>Built as a lightweight static site for GitHub Pages.</p></footer>
+      <section class="contact compact-contact" id="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title">Contact</h2>
+        <p>For research questions, collaborations, or other academic inquiries, the best way to reach me is <a href="mailto:rayverma@nyu.edu">rayverma@nyu.edu</a>.</p>
+      </section>
+
+      <footer>
+        <p>© <span id="year">2026</span> Ray Verma.</p>
+      </footer>
     </main>
   </div>
 </body>

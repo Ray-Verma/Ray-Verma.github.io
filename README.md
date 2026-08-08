@@ -163,3 +163,35 @@ data-background-offset-y="-1.5"
 ```
 
 The automatic empty-arena test uses a two-stage parallel GPU reduction, so it no longer compiles a single shader loop over all 9,216 NCA cells. If the entire 96x96 arena has no alpha above `0.1`, the configured seed is injected automatically.
+
+## Academic homepage structure
+
+The homepage is organized as:
+
+- About Me
+- Ongoing Projects: NavNCA, GoalNCA, and Tabular Foundation Models
+- Publications
+- Experience
+- Contact
+
+The sidebar contains the portrait, name, NYU affiliation, and Email/CV/LinkedIn links.
+
+### Publication images
+
+Each publication currently contains a `.publication-image-placeholder` block in `index.html`.
+When a paper figure is ready, replace that block with an image, for example:
+
+```html
+<img class="publication-image" src="assets/publications/my-paper.png" alt="Brief description of the paper figure">
+```
+
+Then add this rule to `styles.css` if you want the same geometry as the placeholder:
+
+```css
+.publication-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: .65rem;
+}
+```
