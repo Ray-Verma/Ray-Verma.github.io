@@ -251,7 +251,8 @@ main > section:first-child { padding-top: 1.75rem; }
   padding: .17rem .48rem;
   border-radius: 999px;
   background: var(--accent-soft);
-  text-transform: lowercase;
+  text-transform: none !important;
+  font-variant-caps: normal;
 }
 
 .timeline { border-top: 1px solid var(--faint); }
