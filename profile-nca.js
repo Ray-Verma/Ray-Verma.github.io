@@ -150,7 +150,7 @@
       backgroundImage.hidden = true;
     }
 
-    caption.innerHTML = 'This portrait is grown in-browser by a <a href="https://cells2pixels.github.io/" target="_blank" rel="noreferrer">Neural Cellular Automata (NCA) model </a>. Drag to erase and watch the pixels regenerate purely using information from its neighbors; This is the inspiration for my <a href="#navnca">current swarm research</a>.';
+    caption.innerHTML = 'This portrait is grown in-browser by a <a href="https://cells2pixels.github.io/" target="_blank" rel="noreferrer">Neural Cellular Automata (NCA) model </a>. Drag to erase and watch the pixels regenerate purely using information from its neighbors; This is the inspiration for my <a href="#navnca">current swarm research</a>!';
     caption.hidden = false;
     root.dataset.mode = 'live';
   }

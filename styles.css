@@ -181,7 +181,7 @@ main > section:first-child { padding-top: 1.75rem; }
 .project-affiliation {
   color: var(--muted);
   font-family: var(--mono);
-  font-size: .68rem;
+  font-size: .8rem;
   text-align: right;
   white-space: nowrap;
 }
