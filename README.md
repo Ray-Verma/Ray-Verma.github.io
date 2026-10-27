@@ -169,7 +169,7 @@ The automatic empty-arena test uses a two-stage parallel GPU reduction, so it no
 The homepage is organized as:
 
 - About Me
-- Ongoing Projects: NavNCA, GoalNCA, and Tabular Foundation Models
+- Ongoing Projects: NavNCA and Tabular Foundation Models
 - Publications
 - Experience
 - Contact
